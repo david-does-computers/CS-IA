@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Create Task{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="title">Title</label>
+    <input name="title" id="title" value="{{ request.form.get('title', '') }}" required>
+
+    <label for="description">Description</label>
+    <textarea name="description" id="description">{{ request.form.get('description', '') }}</textarea>
+
+    <label for="category">Category</label>
+    <select name="category" id="category" required>
+      <option value="assignment">Assignment</option>
+      <option value="test_revision">Test Revision</option>
+      <option value="misc">Miscellaneous</option>
+    </select>
+
+    <label for="priority">Priority (1-10)</label>
+    <input type="range" name="priority" id="priority" min="1" max="10" value="{{ request.form.get('priority', '5') }}" required>
+
+    <label for="due_date">Due Date</label>
+    <input type="date" name="due_date" id="due_date" value="{{ request.form.get('due_date', '') }}" required>
+
+    <input type="submit" value="Save">
+  </form>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Tasks{% endblock %}</h1>
+  {% if g.user %}
+    <div class="button-container">
+      <button class="button primary-button">Begin Study Session</button>
+      <button class="button secondary-button" onclick="window.location.href=&quot;{{ url_for('task.create') }}&quot;" method="post">Add New Task</button>
+    </div>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  {% if not g.user %}
+    <p>Please <a href="{{ url_for('auth.login') }}">log in</a> to view your tasks.</p>
+  {% else %}
+    <div class="task-list">
+        <h2>Task List</h2>
+        <div class="task-header">
+            <div>Task Title</div>
+            <div>Time Remaining</div>
+            <div>Priority</div>
+        </div>
+      {% for task in tasks %}
+        <div class="task-item">
+          <div>{{ task['title'] }}</div>
+          <div>{{ task['due_date'].strftime('%Y-%m-%d') }}</div>
+          <div class="priority-factor">
+              <div class="priority-factor-fill" style="width: {{ 10*task['priority'] }}%"></div>
+          </div>
+          <div class="task-actions">
+              <form method="get" action="{{ url_for('task.update', id=task['task_id']) }}" style="display:inline;">
+                <button class="action-button">✏️</button>
+              </form>
+              <form method="post" action="{{ url_for('task.delete', id=task['task_id']) }}" style="display:inline;">
+                <button class="action-button" type="submit">🗑️</button>
+              </form>
+              <form method="post" action="{{ url_for('task.complete_task', id=task['task_id']) }}" style="display:inline;">
+                <button class="action-button" type="submit">✓</button>
+              </form>
+          </div>
+        </div>
+        {% if not loop.last %}
+          <hr>
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endblock %}
