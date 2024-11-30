@@ -29,8 +29,15 @@ def register():
                     (username, generate_password_hash(password)),
                 )
                 db.commit()
-            except db.IntegrityError:
-                error = f"User {username} is already registered."
+            except db.IntegrityError as e:
+                if "UNIQUE constraint failed: user.username" in str(e):
+                    error = f"User {username} is already registered."
+                elif "CHECK constraint failed: length(username) <= 15" in str(e):
+                    error = "Username must be 15 characters or fewer."
+                else:
+                    error = "An error occurred. Please try again."
+                    print(e)
+
             else:
                 return redirect(url_for("auth.login"))
 
