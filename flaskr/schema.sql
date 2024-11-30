@@ -9,9 +9,9 @@ DROP TABLE IF EXISTS study_session_tasks;
 
 -- Users Table
 CREATE TABLE user (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  username TEXT UNIQUE NOT NULL,
-  password TEXT NOT NULL
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT UNIQUE NOT NULL CHECK(length(username) <= 15),
+    password TEXT NOT NULL CHECK(length(password) >= 8)
 );
 
 -- Tasks Table
