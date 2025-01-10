@@ -23,11 +23,6 @@ def create_app(test_config=None):
         os.makedirs(app.instance_path)
     except OSError:
         pass
-
-    # a simple page that says hello
-    @app.route('/hello')
-    def hello():
-        return 'Hello, World!'
     
     from . import db
     db.init_app(app)
@@ -38,5 +33,8 @@ def create_app(test_config=None):
     from . import planner
     app.register_blueprint(planner.bp)
     app.add_url_rule('/', endpoint='index')
+
+    from . import session
+    app.register_blueprint(session.bp)
 
     return app

@@ -20,7 +20,7 @@ CREATE TABLE task (
     user_id INTEGER NOT NULL,
     title VARCHAR(255) NOT NULL,
     description TEXT,
-    category TEXT CHECK(category IN ('assignment', 'test_revision', 'misc')) NOT NULL,
+    category TEXT CHECK(category IN ('Assignent', 'Test Revision', 'Misc.')) NOT NULL,
     priority INTEGER CHECK (priority BETWEEN 1 AND 10),
     due_date DATE NOT NULL,
     completed BOOLEAN DEFAULT FALSE,

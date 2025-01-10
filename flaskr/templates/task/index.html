@@ -4,7 +4,7 @@
   <h1>{% block title %}Tasks{% endblock %}</h1>
   {% if g.user %}
     <div class="button-container">
-      <button class="button primary-button">Begin Study Session</button>
+      <button class="button primary-button" onclick="window.location.href=&quot;{{ url_for('session.index') }}&quot;" >Begin Study Session</button>
       <button class="button secondary-button" onclick="window.location.href=&quot;{{ url_for('task.create') }}&quot;" method="post">Add New Task</button>
     </div>
   {% endif %}
@@ -17,33 +17,54 @@
     <div class="task-list">
         <h2>Task List</h2>
         <div class="task-header">
-            <div>Task Title</div>
-            <div>Time Remaining</div>
+            <div>Task</div>
+            <div>Category</div>
+            <div>Days Remaining</div>
             <div>Priority</div>
         </div>
-      {% for task in tasks %}
+      {% for task in active_tasks %}
         <div class="task-item">
-          <div>{{ task['title'] }}</div>
-          <div>{{ task['due_date'].strftime('%Y-%m-%d') }}</div>
+          <div class="task-title"><strong>{{ task['title'] }}</strong></div>
+          <div class="task-category">{{ task['category'].title() }}</div>
+          <div class="task-time-remaining" id="{{task['task_id']}}">{{ task['days_remaining'] }}</div>
           <div class="priority-factor">
               <div class="priority-factor-fill" style="width: {{ 10*task['priority'] }}%"></div>
           </div>
           <div class="task-actions">
               <form method="get" action="{{ url_for('task.update', id=task['task_id']) }}" style="display:inline;">
-                <button class="action-button">✏️</button>
+                <button class="action-button">
+                  <span class="material-symbols-outlined">edit</span>
+                </button>
               </form>
               <form method="post" action="{{ url_for('task.delete', id=task['task_id']) }}" style="display:inline;">
-                <button class="action-button" type="submit">🗑️</button>
+                <button class="action-button" type="submit">
+                  <span class="material-symbols-outlined">delete</span>
+                </button>
               </form>
               <form method="post" action="{{ url_for('task.complete_task', id=task['task_id']) }}" style="display:inline;">
-                <button class="action-button" type="submit">✔</button>
+                <button class="action-button" type="submit">
+                  <span class="material-symbols-outlined">check_circle</span>
+                </button>
               </form>
           </div>
+          <div class="task-description"> <strong>Description:</strong> {{task['description']}}</div>
         </div>
         {% if not loop.last %}
           <hr>
         {% endif %}
       {% endfor %}
     </div>
+  </div>
+  <div class="completed-task-list">
+    <h3>Completed Tasks</h3>
+  {% for task in completed_tasks %}
+    <div class="completed-task-item">
+      <div class="task-title"><strong>{{ task['title'] }}</strong></div>
+      <div class="task-category">{{ task['category'].title() }}</div>
+    </div>
+    {% if not loop.last %}
+      <hr>
+    {% endif %}
+  {% endfor %}
   {% endif %}
 {% endblock %}

@@ -82,9 +82,15 @@ nav ul li a, nav ul li span, header .action {
   padding: 1rem;
 }
 
+.completed-task-list {
+  background-color: white;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
 .task-header {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   padding: 1rem;
   font-weight: 500;
   color: #333;
@@ -92,7 +98,17 @@ nav ul li a, nav ul li span, header .action {
 
 .task-item {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  padding: 1rem;
+  margin: 0.5rem 0;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  align-items: center;
+}
+
+.complete-task-item {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   padding: 1rem;
   margin: 0.5rem 0;
   background-color: #e0e0e0;
@@ -104,6 +120,10 @@ nav ul li a, nav ul li span, header .action {
   display: flex;
   gap: 0.5rem;
   margin-top: 0.5rem;
+}
+
+.task-time-remaining {
+  font-weight: 600;
 }
 
 .action-button {
@@ -134,6 +154,84 @@ nav ul li a, nav ul li span, header .action {
   /* width: 30%; */
   background-color: #4a4a4a;
 }
+
+.material-symbols-outlined {
+  color: whitesmoke;
+}
+
+.task-item .task-description {
+  display: none;
+  margin-top: 1em;
+  grid-column: span 3;
+}
+
+.task-item:hover .task-description {
+  display: block;
+}
+
+.return-to-tasks {
+  margin: 17px;
+  font-size: larger;
+  align-self: center;
+  align-content: center;
+  text-align: center;
+}
+
+/* Timer Code Thanks to dcode */
+.timer-container {
+  text-align: center;
+}
+
+.timer {
+  display: inline-block;
+  margin: 0 auto;
+  padding: 28px 32px;
+  border-radius: 30px;
+  background: white;
+  text-align: center;
+}
+
+.timer-label {
+  font-size: larger;
+  font-weight: 750;
+}
+
+.timer__part {
+  font-size: 65px;
+  font-weight: bold;
+  margin-bottom: 16px; 
+}
+
+.timer__buttons {
+  margin: 13px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px; 
+}
+
+.timer__btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  color: white;
+  background: #8208e6;
+  cursor: pointer;
+}
+
+.timer__btn--reset {
+  background: rgb(255, 149, 0);
+}
+
+.timer__btn--start {
+  background: #00b84c;
+}
+
+.timer__btn--stop {
+  background: #ff0256;
+}
+
 
 /* 
   body {
