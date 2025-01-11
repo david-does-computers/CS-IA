@@ -30,7 +30,11 @@ class Timer {
       });
   
       this.el.reset.addEventListener("click", () => {
-        const inputMinutes = parseFloat(prompt("Enter number of minutes:")).toFixed(1);
+        const input = prompt("Enter number of minutes:");
+
+        if (!input) return;
+
+        const inputMinutes = parseFloat(input).toFixed(1);
 
         if (inputMinutes <= 999 && inputMinutes > 0) {
           this.remainingSeconds = inputMinutes * 60;
@@ -121,6 +125,7 @@ class Timer {
     rest() {
         this.working = false;
         this.root.style.background = "#c19af5";
+        this.stop()
         this.start()
         this.updateInterfaceControls();
     }

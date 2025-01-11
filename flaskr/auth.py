@@ -28,6 +28,25 @@ def register():
                     "INSERT INTO user (username, password) VALUES (?, ?)",
                     (username, generate_password_hash(password)),
                 )
+                user_id = db.execute(
+                    "SELECT id FROM user WHERE username = ?",
+                    (username,)
+                ).fetchone()["id"]
+
+
+                # Pre-add entries to category table for the new user
+                db.execute(
+                    "INSERT INTO category (name, user_id) VALUES (?, ?)",
+                    ("Assignment", user_id),
+                )
+                db.execute(
+                    "INSERT INTO category (name, user_id) VALUES (?, ?)",
+                    ("Test Review", user_id),
+                )
+                db.execute(
+                    "INSERT INTO category (name, user_id) VALUES (?, ?)",
+                    ("Misc.", user_id),
+                )
                 db.commit()
             except db.IntegrityError as e:
                 if "UNIQUE constraint failed: user.username" in str(e):
