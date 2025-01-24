@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Edit "{{ task['title'] }}"{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <!-- <form method="post" class="create-task-form">
+    <input name="title" id="title" placeholder="Title" value="{{ request.form['title'] or task['title'] }}" required>
+
+    <input name="description" placeholder="Description" id="description" value="{{ request.form['description'] or task['description'] }}">
+
+      <select name="category_id" id="category_id" required>
+        {% for cat in categories %}
+        <option value="{{ cat['category_id'] }}" {% if request.form.get('category_id', task['category_id']) == cat['category_id'] %}selected{% endif %}>{{ cat['name'] }}</option>
+        {% endfor %}
+      </select>
+      
+    <div class="range-container">
+      <label for="priority">Priority (1-10): </label>
+      <input type="range" name="priority" id="priority" min="1" max="10" value="{{ request.form.get('priority', task['priority']) }}" required>
+    </div>
+      
+    <div class="due-date-container">
+      <label for="due_date">Due Date: </label>
+      <input type="date" name="due_date" id="due_date" value="{{ request.form.get('due_date', task['due_date']) }}" required>
+    </div>
+
+    <input type="submit" value="Save">
+  </form>
+  <hr>
+  <form action="{{ url_for('task.delete', id=task['task_id']) }}" method="post">
+    <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
+  </form> -->
+
+
+  <form method="post" class="create-task-form">
+    <input name="title" id="title" placeholder="Title" value="{{ request.form.get('title') or task['title'] }}" required>
+
+    <input name="description" placeholder="Description" id="description" value="{{ request.form.get('description') or task['description'] }}">
+
+    <div class="create-category-container">
+      <select name="category_id" id="category_id" required>
+        <option disabled>Category</option>
+        {% for cat in categories %}
+        <option value="{{ cat['category_id'] }}" {% if cat['category_id'] == task['category_id'] %}selected{% endif %}>{{ cat['name'] }}</option>
+        {% endfor %}
+        <option value="-1">Add New Category</option>
+      </select>
+      <input type="text" name="new_category" id="new_category" placeholder="New Category" style="display:none;">
+    </div>
+      
+    <div class="range-container">
+      <label for="priority">Priority (1-10): </label>
+      <input type="range" name="priority" id="priority" min="1" max="10" value="{{ request.form.get('priority') or task['priority'] }}" required>
+    </div>
+      
+    <div class="due-date-container">
+      <label for="due_date">Due Date: </label>
+      <input type="date" name="due_date" id="due_date" value="{{ request.form.get('due_date') or task['due_date'] }}" required>
+    </div>
+
+    <input type="submit" value="Save">
+  </form>
+  <script src="{{ url_for('static', filename='create_script.js') }}"></script>
+{% endblock %}

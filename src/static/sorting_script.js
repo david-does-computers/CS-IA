@@ -1,4 +1,3 @@
-// FILE: flaskr/static/sorting_script.js
 class Organizer {
     constructor() {
         this.select_el = document.querySelector(".sort-category");

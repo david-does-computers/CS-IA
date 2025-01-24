@@ -4,7 +4,7 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
 
-from flaskr.db import get_db
+from src.db import get_db
 
 bp = Blueprint('session', __name__, url_prefix='/session')
 

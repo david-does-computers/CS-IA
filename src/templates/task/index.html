@@ -19,7 +19,7 @@
       <div class="task-head">
         <h2>Task List</h2>
         <div class="sort-category-container">
-          <label for="sort-category" class="sort-category-label">Sort By Category:</label>
+          <label for="sort-category" class="sort-category-label">Filter By Category:</label>
           <select name="sort-category" class="sort-category">
             <option value="-1" {% if selected_category == '-1' %}selected{% endif %}>All</option>
             {% for cat in categories %}

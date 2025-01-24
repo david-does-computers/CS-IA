@@ -10,12 +10,16 @@
 
     <input name="description" placeholder="Description" id="description">
 
+    <div class="create-category-container">
       <select name="category_id" id="category_id" required>
         <option disabled selected>Category</option>
         {% for cat in categories %}
         <option value="{{ cat['category_id'] }}">{{ cat['name'] }}</option>
         {% endfor %}
+        <option value="-1">Add New Category</option>
       </select>
+      <input type="text" name="new_category" id="new_category" placeholder="New Category" style="display:none;">
+    </div>
       
     <div class="range-container">
       <label for="priority">Priority (1-10): </label>
@@ -29,4 +33,5 @@
 
     <input type="submit" value="Save">
   </form>
+  <script src=" {{ url_for('static', filename='create_script.js') }}"></script>
 {% endblock %}

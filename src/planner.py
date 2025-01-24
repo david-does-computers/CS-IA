@@ -67,21 +67,39 @@ def index():
 @bp.route('/create', methods=('GET', 'POST'))
 @login_required
 def create():
+    print('create req')
     if request.method == 'POST':
         title = request.form['title']
         description = request.form['description']
         category_id = request.form['category_id']
         priority = request.form['priority']
         due_date = request.form['due_date']
+        new_category = request.form['new_category']
         error = None
+        print(category_id, type(category_id))
 
         if not (title or category_id or due_date):
             error = 'Missing details.'
+
+        print('error', error)
 
         if error is not None:
             flash(error)
         else:
             db = get_db()
+            if category_id == "-1":
+                if new_category:
+                    db.execute(
+                        "INSERT INTO category (name, user_id) VALUES (?, ?)",
+                        (new_category, g.user['id']),
+                    )
+                    category_id = db.execute(
+                        "SELECT MAX(category_id) FROM category"
+                    ).fetchone()[0]
+                else:
+                    flash('New Categroy cannot be empty')
+
+            
             db.execute(
                 'INSERT INTO task (title, description, category_id, priority, due_date, user_id)'
                 ' VALUES (?, ?, ?, ?, ?, ?)',
@@ -131,21 +149,17 @@ def update(id):
             return redirect(url_for('task.index'))
 
     db = get_db()
-    if g.user is None:
-        return redirect(url_for('auth.login'))
     
     categories = db.execute(
         'SELECT * FROM category c JOIN user u ON c.user_id = u.id'
         ' WHERE u.id = ?',
         (g.user['id'],)
-    )
+    ).fetchall()
     return render_template('task/update.html', task=task, categories=categories)
 
 @bp.route('/<int:id>/delete', methods=('POST',))
 @login_required
 def delete(id):
-    print("Deleting task", id)
-    get_task(id)
     db = get_db()
     db.execute('DELETE FROM task WHERE task_id = ?', (id,))
     db.commit()
@@ -170,7 +184,6 @@ def get_task(id, check_author=True):
 @bp.route('/<int:id>/complete', methods=('POST',))
 @login_required
 def complete_task(id):
-    task = get_task(id)
     db = get_db()
     db.execute('UPDATE task SET completed = TRUE WHERE task_id = ?', (id,))
     db.commit()
