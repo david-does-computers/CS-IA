@@ -51,6 +51,7 @@ class Timer {
             this.rest()
             this.updateInterfaceTime()
         } else {
+            this.remainingSeconds = 1800;
             this.work()
             this.updateInterfaceTime()
         }

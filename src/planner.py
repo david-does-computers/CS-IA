@@ -69,19 +69,22 @@ def index():
 def create():
     print('create req')
     if request.method == 'POST':
-        title = request.form['title']
-        description = request.form['description']
-        category_id = request.form['category_id']
-        priority = request.form['priority']
-        due_date = request.form['due_date']
-        new_category = request.form['new_category']
-        error = None
-        print(category_id, type(category_id))
+        try:
+            title = request.form['title']
+            description = request.form['description']
+            category_id = request.form['category_id']
+            priority = request.form['priority']
+            due_date = request.form['due_date']
+            new_category = request.form['new_category']
+            error = None
+        except Exception as e:
+            if isinstance(e, KeyError):
+                error = 'Missing details.'
+            else:
+                error = e
 
-        if not (title or category_id or due_date):
+        if not (title or due_date):
             error = 'Missing details.'
-
-        print('error', error)
 
         if error is not None:
             flash(error)
@@ -125,16 +128,19 @@ def update(id):
     task = get_task(id)
 
     if request.method == 'POST':
-        title = request.form['title']
-        description = request.form['description']
-        category_id = request.form['category_id']
-        priority = request.form['priority']
-        due_date = request.form['due_date']
-        completed = request.form.get('completed') == 'on'
-        error = None
-
-        if not title:
-            error = 'Title is required.'
+        try:
+            title = request.form['title']
+            description = request.form['description']
+            category_id = request.form['category_id']
+            priority = request.form['priority']
+            due_date = request.form['due_date']
+            completed = request.form.get('completed') == 'on'
+            error = None
+        except Exception as e:
+            if e is KeyError:
+                error = 'Missing details.'
+            else:
+                error = e
 
         if error is not None:
             flash(error)
